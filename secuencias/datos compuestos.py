@@ -6,9 +6,13 @@ lista [1] = "bimbazo"
 print(lista)
 
 #tupla(no se puede modificar)
-tupla = ("joaco","pan")
+ejemplo = (12 , True , 510 , "hola")
 
-print(tupla)
+#la funcion len()determina la cantidad de elementos que tiene una secuencia, y si o si
+#tiene que estar dentro de una variable
+
+print(ejemplo)
+
 
 
 #conjuntos(no se accede a elementos por indice, no almacena datos duplicados)
@@ -25,4 +29,4 @@ diccionario = {
     
 }
 
-print(diccionario["apodo"] + " 2")
+#print(diccionario["apodo"] + " 2")

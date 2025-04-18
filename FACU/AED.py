@@ -23,6 +23,33 @@ importe = 12
 
 monto_base = monto_nominal - importe
     
+impuesto_indicado = ...
+#4
+if monto_base > 500000:
+    monto_base // 21
+
+
+#print("Beneficiario:", beneficiario)
+#print("Moneda:", moneda)
+#print("Monto base (descontadas las comisiones):", monto_base)
+#print("Monto final (descontados los impuestos):", monto_final)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
