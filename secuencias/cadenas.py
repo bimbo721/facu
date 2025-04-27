@@ -46,6 +46,6 @@ cadena_nueva = cadena1.replace(","," ")
 #separar cadenas con la cadena que le pasemos
 cadena_separada = cadena1.split(",")
 
-print()
+print(contar_caracteres)
 
 

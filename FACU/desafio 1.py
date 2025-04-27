@@ -27,7 +27,10 @@ elif dividendo > -1000 and dividendo <0:
         cociente2 = cociente1 // 9
         resto2 = cociente1 % 9
         if cociente2 < 9:
-            restos_str = str("-") + str(cociente2) + str(resto2) + str(resto1)
+            if cociente2 == 0:
+                restos_str = str("-") + str(resto2) + str(resto1)
+            else:
+                restos_str = str("-") + str(cociente2) + str(resto2) + str(resto1)
             print("numero convertido en base 9:",restos_str)
             print("cocientes:",cociente1,",",cociente2)
         else:

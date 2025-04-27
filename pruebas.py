@@ -1,36 +1,43 @@
-dividendo = int(input("Ingrese un numero entero de no mas de tres digitos:"))
+import random
 
 
-if dividendo > 0 and dividendo <1000:
-    cociente1 = dividendo // 9
-    resto1 = dividendo % 9
+# Ingreso de datos
+digitos_patente = int(input('Ingrese dígitos:'))
 
-    cociente2 = cociente1 // 9
-    resto2 = cociente1 % 9
-    if cociente2 < 9:
-        restos_str = str(cociente2) + str(resto2) + str(resto1)
-        print(restos_str)
-        print(cociente1, cociente2)
-    else:
-        cociente3 = cociente2 // 9
-        resto3 = cociente2 % 9
-    
-        restos_str = str(cociente3) + str(resto3) + str(resto2) + str(resto1)
-        print(restos_str)
-        print(cociente1, cociente2, cociente3)
-    
-elif dividendo > -1000 and dividendo <0:
-        dividendo = abs(dividendo)
-        cociente1 = dividendo // 9
-        resto1 = dividendo % 9
+# Sorteo del dígito
+sorteo = random.randint(6, 7)
+print('Sorteo: ', sorteo)
 
-        cociente2 = cociente1 // 9
-        resto2 = cociente1 % 9
+# Extracción del último dígito de la patente
+ultimo_digito = digitos_patente % 10
 
-        cociente3 = cociente2 // 9
-        resto3 = cociente2 % 9
-        
-        restos_str = str("-") + str(cociente3) + str(resto3) + str(resto2) + str(resto1)
-        print(restos_str)
+# Cálculo de la tarifa
+if sorteo == ultimo_digito:
+    print('Tarifa Promocional')
+    # Si coincide el último dígito con lo sorteado, es precio promocional
+    tarifa = 50
 else:
-    print("Valor no admitido")
+    print('Tarifa Completa')
+    # Si no coincide, es precio completo
+    tarifa = 90
+
+# Cálculo del descuento
+if ultimo_digito == 7:
+    print('Descuento del 50%')
+    # Si la patente termina en 7, el descuento es de 50%
+    descuento = tarifa * 0.5
+else:
+    print('Descuento del 10%')
+    # Si la patente NO termina en 7, el descuento es del 10%
+    descuento = tarifa * 0.1
+
+# Monto final a pagar
+monto = tarifa - descuento
+
+# Resultados
+
+print('Debe abonar: $', monto)
+
+#ingrese los digitos de su patente:6
+#el numero sorteado fue: 6
+#valor a pagar: 41.0
