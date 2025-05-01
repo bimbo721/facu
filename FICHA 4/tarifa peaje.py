@@ -3,7 +3,7 @@ patente = int(input("ingrese los digitos de su patente:"))
 import random
 
 
-sorteo = random.randint(6,7)
+sorteo = random.randint(1,9)
 tarifa = 90
 patente %= 10
 print("el numero sorteado fue:", sorteo)
