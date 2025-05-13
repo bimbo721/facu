@@ -1,9 +1,9 @@
 #lista(se puede modificar)
 lista = ["bimbo","1,73","19 años"]
 
-lista [1] = "bimbazo"
+#lista [1] = "bimbazo"
 
-print(lista)
+print(lista[-1])
 
 #tupla(no se puede modificar)
 ejemplo = (12 , True , 510 , "hola")
@@ -11,7 +11,7 @@ ejemplo = (12 , True , 510 , "hola")
 #la funcion len()determina la cantidad de elementos que tiene una secuencia, y si o si
 #tiene que estar dentro de una variable
 
-print(ejemplo)
+#print(ejemplo)
 
 
 
