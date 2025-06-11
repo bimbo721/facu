@@ -32,10 +32,7 @@ def principal():
     bandera_tiene_b = False
     empieza_con_vocal = False
     bandera_m_a = False
-    primer_bandera_d_a = False
-    segunda_bandera_d_a = False
     letra_anterior = ""
-    letra_anterior_vocal = ""
 
     for letra in texto:
         if letra == " " or letra == ".":
