@@ -1,3 +1,4 @@
+
 palabra = input("ingrese la palabra: ")
 "el mono momoxy toca el xilofon."
 
@@ -54,3 +55,5 @@ def principal():
     print("cantidad de silabas mo: ",cant_silabas_mo)        
 
 principal()
+        
+

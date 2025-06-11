@@ -47,8 +47,3 @@ print("mayor: ", mayor_impares)
 print("cantidad de veces de primero: ",cant_ingreso_primer)
 print("cantidad de secuencias: ",cant_secuencias)
 
-
-
-
-
-
