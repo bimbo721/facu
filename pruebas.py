@@ -1,53 +1,63 @@
-from xmlrpc.client import FastParser
-
-
-def moneda_esvalida(cod_orden_pago):
-    monedas_validas = ("USD", "ARS", "EUR", "GBP", "JPY")
-    resultado=False
-    for moneda in monedas_validas:
-        if moneda in cod_orden_pago:
-            resultado=True
-    return resultado
-
-def destinatario_valido(cod_destinatario):
-    destinatariovalidos = ("0123456789", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
-    resultado=False
-    for destinatario in destinatariovalidos:
-        if destinatario in cod_destinatario:
-            resultado=True
-    return (resultado)
-
+def is_digit(letra):
+    digitos = '0123456789'
+    return letra in digitos
 
 
 def principal():
-    m = open("ordenes25.txt")
-    contador = 0
-    cant_invalidas = 0
-    cant_invalidas_orden = 0
-    cant_invalidas_destinatario=0
-    for linea in m:
-        if contador == 0:
-            pass
-        else:
-            if linea[-1] == "\n":
-                linea = linea[0:-1]
-                nombre = linea[0:20]
-                cod_destinatario = linea[20:30]
-                cod_orden_pago = linea[30:40]
-                monto = linea[40:50]
-                alg_comisiones = linea[50:52]
-                alg_impuestos = linea[52:54]
+    print('Analisis de Texto - Silaba "de" en la primera mitad')
+    print('SIN UTILIZAR ARCHIVOS')
+    print('=' * 80)
 
-                esvalida_moneda = moneda_esvalida(cod_orden_pago)
-                if not esvalida_moneda:
-                    cant_invalidas_orden+=1
-                    cant_invalidas += 1
-                esvalido_destinatario= destinatario_valido(cod_destinatario)
-                if not esvalido_destinatario:
-                    cant_invalidas_destinatario+=1
-                    cant_invalidas+=1
-        contador += 1
-    print("La cantidad de operaciones invalidas por moneda no valida es: ", cant_invalidas_orden)
-    print("La cantidad de operaciones invalidas por destinatario invalido es: ", cant_invalidas_destinatario)
-    m.close()
+    texto = input('Ingrese el texto a analizar, finaliza con punto: ')
+    tiene_digito = tiene_d = tiene_de = False
+    palabra_digito = pal_3letras = pal_4a6letras = pal_mas6letras = cant_letras = pal_demitad = 0
+    mayor_longitud = posicion = 0
+
+    for letra in texto:
+        if letra == ' ' or letra == '.':
+
+            if tiene_digito:
+                palabra_digito += 1
+
+            if cant_letras <= 3:
+                pal_3letras += 1
+            elif 4 <= cant_letras <= 6:
+                pal_4a6letras += 1
+            elif cant_letras > 6:
+                pal_mas6letras += 1
+
+            if cant_letras > mayor_longitud:
+                mayor_longitud = cant_letras
+
+            mitad = cant_letras // 2
+            if tiene_de and 0 < posicion <= mitad:
+                pal_demitad += 1
+
+            tiene_de = tiene_d = False
+            tiene_digito = False
+            cant_letras = 0
+
+        else:
+            cant_letras += 1
+
+            if is_digit(letra):
+                tiene_digito = True
+
+            if letra == 'd' and not tiene_de:
+                tiene_d = True
+            else:
+                if letra == 'e' and tiene_d:
+                    tiene_de = True
+                    posicion = cant_letras
+                tiene_d = False
+
+    print('Presentacion de Resultados')
+    print('-' * 80)
+    print('La cantidad de palabras que contienen al menos un digito: ', palabra_digito)
+    print('La cantidad de palabras que contienen hasta 3 letras es:', pal_3letras)
+    print('La cantidad de palabras que contienen entre 4 y 6 letras es:', pal_4a6letras)
+    print('La cantidad de palabras que contienen mas de 6 letras es:', pal_mas6letras)
+    print('La cantidad de palabras con la expresion "de" en la primera mitad es:', pal_demitad)
+    print("longitud: ", mayor_longitud)
+
 principal()
