@@ -5,7 +5,7 @@ def digito(letra):
     return letra in "0123456789"
 
 def vocal(letra):
-    return letra in "aeiouAEIOU"
+    return letra in "aeiouAEIOUÁÉÍÓÚáéíóú"
 
 def calculo_promedio(cant_palabras_que_cumplen, cant_letras_palabra_que_cumplen):
     return cant_letras_palabra_que_cumplen // cant_palabras_que_cumplen
@@ -52,7 +52,7 @@ def principal():
                 if cant_letras_palabra > longitud:
                     longitud = cant_letras_palabra
             
-            if bandera_silaba_fa and bandera_empieza_con_vocal:
+            if bandera_silaba_fa:
                 cant_apartado_4 += 1
                 
             
@@ -92,7 +92,7 @@ def principal():
             if cant_letras_palabra == 1 and vocal(letra):
                 bandera_empieza_con_vocal = True
             
-            if (letra == "a" or letra == "A") and (letra_anterior == "F" or letra_anterior == "f") and bandera_silaba_fa == False:
+            if (letra in "aáAÁ") and (letra_anterior == "F" or letra_anterior == "f") and bandera_empieza_con_vocal:
                 bandera_silaba_fa = True
             
             letra_anterior = letra
