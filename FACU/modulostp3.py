@@ -1,12 +1,11 @@
 def validar(op):
-    letras = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ'
+    permitidos = ['0', '1', '2']
     while True:
-        if op in letras:
-            op = input('Error: se pidio que cargue un numero entre 0 y 2: ')
-        elif int(op) < 0 or int(op) > 2:
-            op = input('Error: se pidio que cargue un numero entre 0 y 2: ')
-        else:
+        op = op.strip()
+        if len(op) == 1 and op in permitidos:
             return op
+        op = input('Error: se pidio que cargue un numero entre 0 y 2: ')
+
 
 def cargar_envio(linea):
     linea = linea.strip()
@@ -14,8 +13,6 @@ def cargar_envio(linea):
         return None
 
     indice = linea.split(',')
-
-
 
     if len(indice) < 7:
         indice = linea.split(';')
@@ -49,7 +46,7 @@ def cargar_envio(linea):
 def procesar_archivo_csv(v):
     distintos = 0
 
-    m = open("../envios.csv", "rt")
+    m = open("envios.csv", "rt")
     for linea in m:
         obj = cargar_envio(linea)
 
@@ -225,7 +222,7 @@ def sumatoria_impuestos_por_par_monedas(v, m_2):
     return resultado
 
 class Envio():
-    def _init_(self, cod_mon_origen, cod_mon_pago, id_pago, id_dest, nom_dest, tasa_conv, monto_nominal, alg_com, alg_imp):
+    def __init__(self, cod_mon_origen, cod_mon_pago, id_pago, id_dest, nom_dest, tasa_conv, monto_nominal, alg_com, alg_imp):
 
         self.cod_mon_origen = int(cod_mon_origen)
         self.cod_mon_pago = int(cod_mon_pago)
@@ -237,7 +234,7 @@ class Envio():
         self.alg_com = int(alg_com)
         self.alg_imp = int(alg_imp)
 
-    def _str_(self):
+    def __str__(self):
         cadena = "Envio("
         cadena += "mon_origen=" + str(self.cod_mon_origen)
         cadena += ", mon_pago=" + str(self.cod_mon_pago)
