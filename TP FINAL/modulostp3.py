@@ -44,19 +44,62 @@ def cargar_envio(linea):
 
 
 def procesar_archivo_csv(v):
+    m = open("envios.csv", "rt")
     distintos = 0
 
-    m = open("envios.csv", "rt")
     for linea in m:
         obj = cargar_envio(linea)
 
         if obj is not None:
-            v.append(obj)
+            acomodar_vector(v,obj)
             if obj.cod_mon_origen != obj.cod_mon_pago:
                 distintos = distintos + 1
-    m.close()
 
+    m.close()
     return distintos
+
+##################
+def acomodar_vector(v,obj):
+    izq = 0
+    der = len(v)
+
+    while izq < der:
+        centro = (izq + der) // 2
+        if v[centro].id_dest >= obj.id_dest:
+            izq = centro + 1
+        else:
+            der = centro
+
+    pos = izq
+    v[pos:pos] = [obj]
+
+##################
+def buscar_valor(v,i):
+    n = len(v)
+    nuevo_indice = 0
+
+    if i > n or i < n:
+        print("indice fuera de rango")
+        return
+
+
+    for f in range(n):
+        if i == f:
+            print("r1.1)id de pago en el lugar i:",v[f].id_pago)
+
+            if i % 2 == 0:
+                nuevo_indice = i // 2
+
+            elif i % 2 != 0:
+                nuevo_indice = 3 * i + 1
+
+            if nuevo_indice >= n: #mostrar ultimo
+                nuevo_indice = n - 1
+
+            print("r1.2) nuevo id de pago:",v[nuevo_indice].id_pago)
+            break
+
+
 
 #r22
 def identificador(m_2,v,matriz):

@@ -16,8 +16,10 @@ def principal():
             distintos = procesar_archivo_csv(vector)
             r11 = len(vector)
             r12 = distintos
-            print("r1.1:", r11)
-            print("r1.2:", r12)
+#############
+            i = int(input("ingrese un valor i: "))
+            buscar_valor(vector,i)
+
 
         if op == 2:
             if not vector:
@@ -68,6 +70,7 @@ def principal():
                     total = resultado[k][2]
                     print("moneda_origen=" + str(mo) + ", moneda_pago=" + str(mp) + ":", round(total, 2))
                     k = k + 1
+
 
         if op == 0:
             print("el programa terminó")
