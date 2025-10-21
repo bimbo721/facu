@@ -7,6 +7,8 @@ def principal():
         print("Opciones:")
         print("1)cargar envios")
         print("2)mostrar resultados")
+        print("3)buscar")
+        print("4)mayores")
         print("0)salir")
         op = validar(input("Ingrese opción: "))
         op = int(op)
@@ -61,6 +63,10 @@ def principal():
                             resultado[j] = aux
                         j = j + 1
                     i = i + 1
+
+
+                generar_nuevo_archivo(vector)
+
 
                 print("r2.4:")
                 k = 0

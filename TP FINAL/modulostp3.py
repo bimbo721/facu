@@ -1,3 +1,6 @@
+import pickle
+
+
 def validar(op):
     permitidos = ['0', '1', '2']
     while True:
@@ -78,14 +81,14 @@ def buscar_valor(v,i):
     n = len(v)
     nuevo_indice = 0
 
-    if i > n or i < n:
+    if i >= n or i < 0:
         print("indice fuera de rango")
         return
 
 
     for f in range(n):
         if i == f:
-            print("r1.1)id de pago en el lugar i:",v[f].id_pago)
+            print("r1.1: ",v[f].id_pago)
 
             if i % 2 == 0:
                 nuevo_indice = i // 2
@@ -96,8 +99,69 @@ def buscar_valor(v,i):
             if nuevo_indice >= n: #mostrar ultimo
                 nuevo_indice = n - 1
 
-            print("r1.2) nuevo id de pago:",v[nuevo_indice].id_pago)
+            print("r1.2: ",v[nuevo_indice].id_pago)
             break
+
+
+def generar_nuevo_archivo(v,m_comisiones):
+    n = len(v)
+
+    matriz_acumulador = []
+    #filas son las 5 monedas
+    #columna 0 indica de que moneda es de origen
+    #columa 1 suma_comisiones
+    #columa 2 cantidad_objetos
+
+
+    for i in range(n):
+        objeto = v[i]
+        comision = m_comisiones[i][0] #columna de las comisiones
+        moneda_origen = objeto.obtener_codigo_moneda_origen()
+
+
+        #esto verifica que existe la moneda en la matriz acu,si no,la agrega
+        pos = -1
+        for fila in range(len(matriz_acumulador)):
+            if matriz_acumulador[fila][0] == moneda_origen:
+                pos = fila
+                break
+
+        if pos == -1:
+            matriz_acumulador.append([moneda_origen,comision,1])
+        else:
+            matriz_acumulador[pos][1] += comision
+            matriz_acumulador[pos][2] += 1
+
+
+    promedio = [0.0] * 6
+    for k in range(len(matriz_acumulador)):
+        moneda = matriz_acumulador[k][0]
+        suma_comision = matriz_acumulador[k][1]
+        cant_objetos = matriz_acumulador[k][2]
+
+        if cant_objetos != 0: #poner promedio[moneda] hace que nunca entre al casillero
+            #0 del promedio ya que "moneda = matriz_acumulador[k][0]" se guardo la moneda
+            # en la matriz como (1,2,3,4 o 5)
+            promedio[moneda] = suma_comision / cant_objetos
+
+
+    #en la m_comisiones es asi:
+    # las filas es un envio,o sea un objeto del vector
+    # las columa 0 es comision
+    # las columna 1 es el monto base
+
+
+    #dato importante para entender,nunca se usan las filas de la matriz_acumulador,ya que
+    #el valor/tipo de las monedas estan en la columna 0
+    m = open("archivocomision", "wb")
+    for i in range(n):
+        comision = m_comisiones[i][0]
+        moneda = v[i].obtener_codigo_moneda_origen()
+
+        if comision > promedio[moneda]:
+            pickle.dump(v[i],m)
+
+    m.close()
 
 
 
@@ -168,6 +232,11 @@ def calculo_impositivo(v,matriz):
 #r21
 def comisiones(vector):
     matriz_comi = []
+
+    #las filas es un envio,o sea un objeto del vector
+    #las columa 0 es comision
+    #las columna 1 es el monto base
+
 
     for i in vector:
         monto_n = i.monto_nominal
@@ -264,29 +333,55 @@ def sumatoria_impuestos_por_par_monedas(v, m_2):
 
     return resultado
 
-class Envio():
-    def __init__(self, cod_mon_origen, cod_mon_pago, id_pago, id_dest, nom_dest, tasa_conv, monto_nominal, alg_com, alg_imp):
 
-        self.cod_mon_origen = int(cod_mon_origen)
-        self.cod_mon_pago = int(cod_mon_pago)
-        self.id_pago = id_pago
-        self.id_dest = id_dest
-        self.nom_dest = nom_dest
-        self.tasa_conv = float(tasa_conv)
-        self.monto_nominal = float(monto_nominal)
-        self.alg_com = int(alg_com)
-        self.alg_imp = int(alg_imp)
+class Envio:
+    def __init__(self, codigo, identificacion_destinatario,
+                 nombre_destinatario, tasa, monto_nominal,
+                 algoritmo_comision, algoritmo_impositivo):
+        self.codigo = codigo
+        self.identificacion_destinatario = identificacion_destinatario
+        self.nombre_destinatario = nombre_destinatario
+        self.tasa = tasa
+        self.monto_nominal = monto_nominal
+        self.algoritmo_comision = algoritmo_comision
+        self.algoritmo_impositivo = algoritmo_impositivo
+
+    def obtener_identificador_pago(self):
+        identificador_pago = self.codigo.split("|")
+        return identificador_pago[2]
+
+    def obtener_codigo_moneda_origen(self):
+        moneda_origen = self.codigo.split("|")
+        return int(moneda_origen[0])
+
+    def obtener_codigo_moneda_destino(self):
+        moneda_destino = self.codigo.split("|")
+        return int(moneda_destino[1])
 
     def __str__(self):
-        cadena = "Envio("
-        cadena += "mon_origen=" + str(self.cod_mon_origen)
-        cadena += ", mon_pago=" + str(self.cod_mon_pago)
-        cadena += ", id_pago=" + self.id_pago
-        cadena += ", id_dest=" + self.id_dest
-        cadena += ", nom_dest=" + self.nom_dest
-        cadena += ", tasa_conv=" + str(self.tasa_conv)
-        cadena += ", monto_nominal=" + str(self.monto_nominal)
-        cadena += ", alg_com=" + str(self.alg_com)
-        cadena += ", alg_imp=" + str(self.alg_imp)
-        cadena += ")"
-        return cadena
+        return (
+            f"Identificador de pago: {self.obtener_identificador_pago()} - Identificación: {self.identificacion_destinatario} -"
+            f" Nombre: {self.nombre_destinatario} - Tasa: {self.tasa} - Monto nominal: {self.monto_nominal}")
+
+
+def generar_envio(token):
+    datos_base = token[:-1]
+    datos_base = datos_base.split(",")
+    codigo = datos_base[0]
+    identificacion_destinatario = datos_base[1]
+    nombre_destinatario = datos_base[2]
+    tasa = float(datos_base[3])
+    monto_nominal = int(datos_base[4])
+    algoritmo_comision = int(datos_base[5])
+    algoritmo_impositivo = int(datos_base[6])
+    return Envio(codigo, identificacion_destinatario, nombre_destinatario, tasa, monto_nominal, algoritmo_comision,
+                 algoritmo_impositivo)
+
+
+if __name__ == "__main__":
+    envio_base = "05|04|4616A0743D75FC8C,AF188371E36A,Shansa B. Alexis,1,11374056,4,2\n"
+    envio = generar_envio(envio_base)
+    print(envio)
+    print(envio.obtener_identificador_pago())
+    print(envio.obtener_codigo_moneda_origen())
+    print(envio.obtener_codigo_moneda_destino())
