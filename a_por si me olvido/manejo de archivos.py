@@ -23,4 +23,3 @@ m.tell()
 
 # m.seek(10, io.SEEK_SET) posiciona a "b" al principio
 # m.seek(10, io.SEEK_CUR) posiciona a "b" en el file pointer actual
-

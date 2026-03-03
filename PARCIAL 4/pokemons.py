@@ -25,11 +25,15 @@ def principal():
         op = menu()
 
         if op == 1:
-            vector = cargar_arreglo()
+            op1 = cargar_arreglo(vector)
 
         elif op == 2:
             if vector:
-                mostrar_vector(vector)
+
+                for i in range(len(vector)):
+                    print("pokemon:",vector[i])
+
+                #mostrar_vector(vector)
 
             else:
                 print("el vector no fue cargado todavía...")

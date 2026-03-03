@@ -1,15 +1,7 @@
-
-#Creando una lista con list()
-lista = list([34,56,23,True,False])
-
-#devuelve la cantidad de elementos de la lista
-cantidad_elementos = len(lista)
-
-#agregando un elemento a la lista
-lista.append(65)
+lista = [ ]
 
 #agregando un elemento a la lista en un indice especifico
-lista.insert(2,"TOMA MAMA")
+lista.insert(2,"algo")
 
 #agregando varios elementos a la lista
 lista.extend([False,2030])
@@ -18,7 +10,7 @@ lista.extend([False,2030])
 lista.pop(3) #-1 para eliminar el ultimo, -2 para eliminar el anteultimo, y asì sucesivamente
 
 #removiendo un elemento de la lista por su valor
-lista.remove("TOMA MAMA")
+lista.remove("algo")
 
 #eliminando todos los elementos de la lista
 #lista.clear()

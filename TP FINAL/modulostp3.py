@@ -9,7 +9,7 @@ def validar(op):
         op = op.strip()
         if len(op) == 1 and op in permitidos:
             return op
-        op = input('Error: se pidio que cargue un numero entre 0 y 2: ')
+        op = input('Error: se pidio que cargue un numero entre 0 y 4: ')
 
 
 # -------------------------------r1------------------------------

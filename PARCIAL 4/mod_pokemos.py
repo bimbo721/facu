@@ -28,10 +28,10 @@ def acomodar_arreglo(v,pokemon):
     v[pos:pos] = [pokemon]
 
 
-def cargar_arreglo():
+def cargar_arreglo(vector):
     n = int(input("ingrese la cantidad de pokemons a cargar: "))
     nombres = ["pika","pacu","leon","qdq","vorte","gummy","fansta"]
-    v = []
+
 
     for i in range(n):
         nombre = random.choice(nombres)
@@ -42,9 +42,8 @@ def cargar_arreglo():
 
         bicho = Pokemon(nombre,numero,tipo,pc,nivel)
 
-        acomodar_arreglo(v,bicho)
+        acomodar_arreglo(vector,bicho)
 
-    return v
 
 
 def mostrar_vector(v):
